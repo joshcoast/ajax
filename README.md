@@ -1,1 +1,1 @@
-Using the giffy API to get practice with ajax.
+Using the giffy API to get practice with ajax. Also a side effort of testing out the tailwind css frameowrk. 
