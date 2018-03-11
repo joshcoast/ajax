@@ -2,6 +2,19 @@ Using the giffy API to get practice with ajax. Also a side effort of testing out
 
 ** Note: Setting up this particular project with scss, gulp, and tailwind is HUGE overkill. I'm only doing it for experimental purposes.**
 
+File structure:
+ |- app/ --> the dev site
+      |- css/
+      |- fonts/
+      |- images/ 
+      |- index.html
+      |- js/ 
+      |- scss/
+  |- dist/ --> the production site
+  |- gulpfile.js
+  |- node_modules/
+  |- package.json
+
 ** tailwind need node -v6 **
 Install and use node -v6 using nvm:
 nvm install 6
@@ -14,3 +27,4 @@ tailwind settings
 
 /tailwind.js has all the settings and defaults for the project. Use it to make global css changes for your project.
 https://tailwindcss.com/docs/configuration 
+

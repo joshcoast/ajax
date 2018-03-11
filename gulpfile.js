@@ -11,6 +11,10 @@ var cssnano = require('gulp-cssnano');
 var del = require('del');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
+var runSequence = require('run-sequence');
+
+
+/* -- Development Tasks --*/
 
 /* -- Browser Sync task 
 	We need to create a browserSync task to enable Gulp to spin up a server using Browser Sync. Since we're running a server, we need to let Browser Sync know where the root of the server should be. In our case, it's the `app` folder:
@@ -32,6 +36,8 @@ gulp.task('sass', function(){
 			stream: true
 		}))
 });
+
+/* -- Production Website Tasks --*/
 
 // Builds dist directory task
 gulp.task('useref', function(){
@@ -82,7 +88,22 @@ gulp.task('clean:dist', function() {
   return del.sync('dist');
 })
 
-//Watch task
+/*-- run-sequence (to run production tasks in a particular order)
+example:
+gulp.task('task-name', function(callback) {
+  runSequence('task-one', ['tasks','two','run','in','parallel'], 'task-three', callback);
+});
+Note: the tasks in the array run simultaneously
+--*/
+gulp.task('build', function (callback) {
+  runSequence('clean:dist', 
+    ['sass', 'useref', 'images', 'fonts'],
+    callback
+  )
+})
+
+//Watch tasks
+
 /* -- 
 example:
 gulp.task('watch', ['array', 'of', 'tasks', 'to', 'complete','before', 'watch'], function (){
@@ -95,6 +116,13 @@ gulp.task('watch', ['browserSync', 'sass'], function(){
 	// Reloads the browser whenever HTML or JS files change
 	gulp.watch('app/*.html', browserSync.reload); 
 	gulp.watch('app/js/**/*.js', browserSync.reload); 
+})
+
+// "default"  runs sass task then browserSync task and then the watch task when you run `gulp` all by itself. 
+gulp.task('default', function (callback) {
+  runSequence(['sass','browserSync', 'watch'],
+    callback
+  )
 })
 
 
