@@ -4,6 +4,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
+var useref = require('gulp-useref');
 
 /* -- Browser Sync task 
 	We need to create a browserSync task to enable Gulp to spin up a server using Browser Sync. Since we're running a server, we need to let Browser Sync know where the root of the server should be. In our case, it's the `app` folder:
@@ -24,6 +25,12 @@ gulp.task('sass', function(){
 		.pipe(browserSync.reload({
 			stream: true
 		}))
+});
+
+gulp.task('useref', function(){
+  return gulp.src('app/*.html')
+    .pipe(useref())
+    .pipe(gulp.dest('dist'))
 });
 
 //Watch tasks
