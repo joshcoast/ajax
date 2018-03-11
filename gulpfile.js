@@ -1,7 +1,7 @@
 /* -- Notes from css-tricks https://css-tricks.com/gulp-for-beginners/ --*/
 
 // Our Requirements
-var postcss = require('gulp-postcss');
+//var postcss = require('gulp-postcss');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
@@ -13,6 +13,9 @@ var del = require('del');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
 var runSequence = require('run-sequence');
+
+// The postCss array or required plugins https://www.smashingmagazine.com/2015/12/introduction-to-postcss/
+
 
 
 /* -- Development Tasks --*/
@@ -47,11 +50,27 @@ gulp.task('useref', function(){
 		.pipe(gulp.dest('dist'))
 		// Minifies only if it's a JavaScript file
 		.pipe(gulpIf('*.js', uglify()))
-		// Minifies only if it's a CSS file
-		.pipe(gulpIf('*.css', cssnano()))
 		// place new file in the dist "distribute" directory
 		.pipe(gulp.dest('dist'))
 });
+
+// postCSS grabs dev css and runs production ready plugins to the css (like autoprefixer)
+
+
+
+gulp.task('styles', function () {
+	var postcss = require('gulp-postcss');
+	var focus = require('postcss-focus');
+
+	return gulp.src('app/css/styles.css')
+			.pipe( postcss([ 
+				focus,
+				require('autoprefixer'), 
+			 ]) )
+			.pipe( gulp.dest('dist/css/') );
+});
+
+
 
 // Optimizing Images task
 gulp.task('images', function(){
@@ -98,7 +117,7 @@ Note: the tasks in the array run simultaneously
 --*/
 gulp.task('build', function (callback) {
   runSequence('clean:dist', 
-    ['sass', 'useref', 'images', 'fonts'],
+    ['sass', 'useref', 'images', 'fonts'], 'styles',
     callback
   )
 })
