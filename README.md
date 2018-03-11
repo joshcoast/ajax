@@ -1,5 +1,7 @@
 Using the giffy API to get practice with ajax. Also a side effort of testing out the tailwind css framework https://tailwindcss.com/docs/.
 
+** Note: Setting up this particular project with scss, gulp, and tailwind is HUGE overkill. I'm only doing it for experimental purposes.**
+
 ** tailwind need node -v6 **
 Install and use node -v6 using nvm:
 nvm install 6
