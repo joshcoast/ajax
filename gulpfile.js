@@ -66,6 +66,17 @@ gulp.task('images', function(){
   .pipe(gulp.dest('dist/images'))
 });
 
+// Clear Image Cache 
+gulp.task('cache:clear', function (callback) {
+	return cache.clearAll(callback)
+})
+
+// Moves our fonts to the dist directory (no optimization needed)
+gulp.task('fonts', function() {
+  return gulp.src('app/fonts/**/*')
+  .pipe(gulp.dest('dist/fonts'))
+})
+
 // Cleans dist directory task
 gulp.task('clean:dist', function() {
   return del.sync('dist');
