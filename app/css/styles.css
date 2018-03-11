@@ -1,2 +1,9 @@
 .testing {
   width: 71.42857%; }
+
+body {
+  background: pink; }
+
+h1 {
+  display: block;
+  background: tan; }
