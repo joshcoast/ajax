@@ -1,6 +1,6 @@
-Using the giffy API to get practice with ajax. Also a side effort of testing out the tailwind css framework https://tailwindcss.com/docs/.
+Using the giffy API to get practice with ajax.
 
-** Note: Setting up this particular project with scss, gulp, and tailwind is HUGE overkill. I'm only doing it for experimental purposes.**
+** Note: Setting up this particular project with scss and gulp is a HUGE overkill. I'm only doing it for experimental purposes.**
 
 File structure:
  |- app/ --> the dev site
@@ -15,16 +15,9 @@ File structure:
   |- node_modules/
   |- package.json
 
-** tailwind need node -v6 **
-Install and use node -v6 using nvm:
-nvm install 6
-nvm use 6
+Workflow
+-----------
 
-To install nvm if you don't already have it. http://michael-kuehnel.de/node.js/2015/09/08/using-vm-to-switch-node-versions.html
-
-tailwind settings
------------------
-
-/tailwind.js has all the settings and defaults for the project. Use it to make global css changes for your project.
-https://tailwindcss.com/docs/configuration 
-
+- run `gulp`
+- make changes in `app` changes will be reflected in your default browser automatically. (edit only scss files for styles)
+- When ready to push, stop the gulp watch possess and run `gulp build`. This will optimize the site and build the dist directory. Production will read from the dist directory. 
