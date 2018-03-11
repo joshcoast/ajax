@@ -9,6 +9,7 @@ var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 var cssnano = require('gulp-cssnano');
 var del = require('del');
+var imagemin = require('gulp-imagemin');
 
 /* -- Browser Sync task 
 	We need to create a browserSync task to enable Gulp to spin up a server using Browser Sync. Since we're running a server, we need to let Browser Sync know where the root of the server should be. In our case, it's the `app` folder:
@@ -42,6 +43,16 @@ gulp.task('useref', function(){
 		.pipe(gulpIf('*.css', cssnano()))
 		// place new file in the dist "distribute" directory
 		.pipe(gulp.dest('dist'))
+});
+
+// Optimizing Images task
+gulp.task('images', function(){
+  return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
+  .pipe(imagemin({
+      // Setting interlaced to true
+      interlaced: true
+    }))
+  .pipe(gulp.dest('dist/images'))
 });
 
 // Cleans dist directory task
