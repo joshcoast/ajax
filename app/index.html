@@ -1,24 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Giffy API</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
-
-	<!--build:js js/main.min.js -->
-	<script src="./js/lib/jquery-3.3.1.min.js"></script>
-	<script src="./js/lib/popper.min.js"></script>
-	<script src="./js/lib/bootstrap.min.js"></script>
-	<script src="./js/main.js"></script>
-	<!-- endbuild -->
-	
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Giphy API Exercise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
+  <!--build:js js/main.min.js -->
+  <script src="./js/lib/jquery-3.3.1.min.js"></script>
+  <script src="./js/lib/popper.min.js"></script>
+  <script src="./js/lib/bootstrap.min.js"></script>
+  <script src="./js/main.js"></script>
+  <!-- endbuild -->
 </head>
-<body>
-<h1>Header</h1>
-<h2>Sub header</h2>
 
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Giphy API Exercise</a>
+  </nav>
+  <main role="main">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">Middle Earth</h1>
+        <p>Ever have a burning desire to see a gif of the Eye of Mordor watching you? Ever want to see Gimli offer you his axe? Now's your chance.</p>
+        <form>
+          <label for="gif-input" class="sr-only">Add a Gif</label>
+          <br>
+          <input type="text" class="form-control mb-2 mr-sm-2" id="gif-input" placeholder="Gimli">
+          <small id="emailHelp" class="form-text text-muted">Enter a middle earth character name.</small>
+          <br>
+          <button id="addButton" type="submit" class="btn btn-primary">Add the New Button ▼</button>
+        </form>
+      </div>
+    </div>
+    <div class="container">
+      <div id="buttonArea">
+        <!-- Dynamic buttons are added here -->
+      </div>
+    </div>
+    <div class="container ">
+      <!-- Example row of columns -->
+      <div id="gifs-appear-here" class="row">
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p>
+            <a class="btn btn-secondary" href="#" role="button">View details &raquo;</a>
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p>
+            <a class="btn btn-secondary" href="#" role="button">View details &raquo;</a>
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-secondary" href="#" role="button">View details &raquo;</a>
+          </p>
+        </div>
+      </div>
+      <hr> </div>
+    <!-- /container -->
+  </main>
+  <footer class="container">
+    <p>&copy; Third Age 3001 - 3019</p>
+  </footer>
 </body>
+
 </html>
