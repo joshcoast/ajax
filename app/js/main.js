@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
 
-	var buttons = ["Gimli", "Eye of Mordor", "Rosie Cotton", "Elrond", "Peregrin Took"];
+	var buttons = ["Frodo Baggins", "Samwise Gamgee", "Gimli", "Aragorn", "Legolas", "Gandalf", "Boromir", "Eye of Mordor", "Sauron", "Gimli's Axe", "Rosie Cotton", "Elrond", "Peregrin Took", "Mariadoc Brandybuck", "Tom Bombadil", "Radagast", "Fangorn", "Treebeard", "Gollum"];
 	var $buttonArea = $("#buttonArea");
 
 	//event listeners 
@@ -23,7 +23,8 @@ $(document).ready(function () {
 		},
 		addNewButton: function () {
 			event.preventDefault(event);
-			var gifInput = $("#gif-input").val();
+			var gifInput = $("#gif-input").val().trim();
+			$("#gif-input").val("");
 			buttons.push(gifInput);
 			gifalizer.createButtons();
 		},
@@ -46,14 +47,14 @@ $(document).ready(function () {
 					`<div class="col-md-4">
 						<div class="card mb-4 gif-card">
 							<div class="card-image-wrap">
-								<img class="card-img-top" data-altImage="${results[i].images.fixed_width.url}" src="${results[i].images.fixed_width_still.url}" alt="${results[i].title}">
+								<img class="card-img-top" data-altImage="${results[i].images.original.url}" src="${results[i].images.fixed_height_still.url}" alt="${results[i].title}">
+								<i class="play-icon far fa-play-circle"></i>
 							</div>
 							<div class="card-body">
-								
 								<p class="card-text">Title: ${results[i].title}</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<a role="button" class="btn btn-sm btn-outline-secondary" href="${results[i].images.fixed_width.url}">View</a>
+										<a role="button" class="btn btn-sm btn-outline-secondary" href="${results[i].images.fixed_width.url}" target="_blank">View</a>
 										<button type="button" class="btn btn-sm btn-outline-secondary" data-gifLink="${results[i].images.fixed_width.url}" data-toggle="tooltip" data-placement="right" title="Copy Link">
 											<i class="fas fa-link fa-spin"></i>
 										</button>
@@ -84,7 +85,9 @@ $(document).ready(function () {
 		var $thisLink = $(this);
 		var dummyContent = $thisLink.attr("data-gifLink");
 		console.log(dummyContent);
-		var dummy = $('<input>').val(dummyContent).appendTo('body').select().addClass("hidden");
+		var dummy = $('<input>');
+		dummy.val(dummyContent);
+		dummy.appendTo('#copyInputs').select();
 		document.execCommand('copy');
 
 		$(this).tooltip('hide')

@@ -7,6 +7,7 @@
 	<title>Giphy API Exercise</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Milonga" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
 	<!--build:js js/main.min.js -->
 	<script src="./js/lib/jquery-3.3.1.min.js"></script>
@@ -25,22 +26,22 @@
 		<!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="jumbotron">
 			<div class="container">
-				<h1 class="display-3">Middle Earth</h1>
+				<h1 class="display-3">Middle Earth Giphy</h1>
 				<p>Ever have a burning desire to see a gif of the Eye of Mordor watching you? Ever want to see Gimli offer you his axe? Now's your chance.</p>
-				<form>
-					<label for="gif-input" class="sr-only">Add a Button</label>
-					<br>
-					<input type="text" class="form-control mb-2 mr-sm-2" id="gif-input" placeholder="Add a new character name!">
-					<small id="emailHelp" class="form-text text-muted">Missing your favorite character? Add a new one.</small>
-					<br>
-					<button id="addButton" type="submit" class="btn btn-primary">Add the New Button ▼</button>
-				</form>
 			</div>
 		</div>
 		<div class="container">
 			<div id="buttonArea" class="mb-4">
 				<!-- Dynamic buttons are added here -->
 			</div>
+			<form class="form-inline mb-4">
+				<div class="form-group mr-2">
+					<label for="gif-input" class="sr-only">Add a Name</label>
+					<input type="text" class="form-control" id="gif-input" placeholder="Add a character"> </div>
+				<div class="form-group">
+					<button id="addButton" type="submit" class="btn btn-primary">Add</button>
+				</div>
+			</form>
 		</div>
 		<div class="container ">
 			<div id="gifs-appear-here" class="row d-flex align-content-stretch flex-wrap">
@@ -51,6 +52,7 @@
 	<footer class="container">
 		<p>&copy; Third Age 3001 - 3019</p>
 	</footer>
+	<div id="copyInputs" aria-hidden="true" class="visually-hidden"> </div>
 </body>
 
 </html>

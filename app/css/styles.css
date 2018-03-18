@@ -8,6 +8,16 @@ img {
 .hidden {
   display: none; }
 
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0; }
+
 .jumbotron {
   background-image: url(../images/hobbiton-movie-set-8.jpg);
   background-size: cover;
@@ -15,6 +25,8 @@ img {
   background-position: center center;
   color: white;
   position: relative; }
+  .jumbotron h1 {
+    font-family: 'Milonga', cursive; }
 
 .jumbotron .container {
   z-index: 1;
@@ -33,3 +45,20 @@ img {
 
 .jumbotron .text-muted {
   color: rgba(255, 255, 255, 0.75) !important; }
+
+.card-image-wrap {
+  position: relative; }
+
+.card-image-wrap .play-icon {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 50px;
+  opacity: 0.8;
+  pointer-events: none; }
+
+.play.card-image-wrap .play-icon {
+  display: none; }
