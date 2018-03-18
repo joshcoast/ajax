@@ -1,6 +1,6 @@
 Using the giffy API to get practice with javascript and jquery ajax.
 
-** Note: Setting up this particular project with scss and gulp is a HUGE overkill. I'm only doing it for experimental purposes.**
+** Note: Setting up this particular project with scss and gulp is a bit of an overkill. I'm only doing it for experimental purposes.**
 
 needs to use node v6
 nvm use 6
