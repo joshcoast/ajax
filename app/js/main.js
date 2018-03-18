@@ -1,73 +1,97 @@
-	// API key 9f58bbritTrBuLoXySdYbj0bEcMXMWB5
-	// https://developers.giphy.com/explorer/
-
-	// url https://api.giphy.com/v1/gifs/search?api_key=9f58bbritTrBuLoXySdYbj0bEcMXMWB5&q=Gimli&limit=25&offset=0&rating=R&lang=en
-
-
-var buttons = ["Gimli", "Eye of Mordor", "Rosie Cotton", "Elrond", "Peregrin Took"];
+// https://developers.giphy.com/explorer/
 
 $(document).ready(function () {
-	// reuse element queries
+
+	var buttons = ["Gimli", "Eye of Mordor", "Rosie Cotton", "Elrond", "Peregrin Took"];
 	var $buttonArea = $("#buttonArea");
 
 	//event listeners 
-	$("#addButton").on("click", function(event){
+	$("#addButton").on("click", function (event) {
 		gifalizer.addNewButton();
 	});
 
 	var gifalizer = {
-		createButtons: function() {
+		createButtons: function () {
+			$buttonArea.empty();
 			for (var i = 0; i < buttons.length; i++) {
-				console.log(buttons[i]);
 				var buttonElement = `
-					<button type="button" class="btn btn-primary"> 
+					<button type="button" class="btn btn-outline-secondary mb-2"> 
 						${buttons[i]} 
 					</button>`;
-					$("#buttonArea").append(buttonElement);
+				$buttonArea.append(buttonElement);
 			}
 		},
-		addNewButton: function() {
+		addNewButton: function () {
 			event.preventDefault(event);
-			console.log("you clicked add-a-button");
-		}
+			var gifInput = $("#gif-input").val();
+			buttons.push(gifInput);
+			gifalizer.createButtons();
+		},
 	}
-
 	gifalizer.createButtons();
-	
 
 	$buttonArea.on("click", "button", function (event) {
 		event.preventDefault(event);
-		console.log("you clicked a button in the button area");
 		var searchTerm = $(this).text();
 		var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
 			searchTerm + "&api_key=9f58bbritTrBuLoXySdYbj0bEcMXMWB5&limit=10";
-
 		$.ajax({
 			url: queryURL,
 			method: "GET"
 		}).then(function (response) {
-
 			console.log(response);
 			var results = response.data;
-			var $gifsArea = $("#gifs-appear-here")
 			for (var i = 0; i < results.length; i++) {
-				var gifDiv = $('<div class="col-md-4">');
-				var p = $('<p>');
-				p.text(results[i].rating);
-				var animalImage = $("<img>");
-				animalImage.attr("src", results[i].images.fixed_height.url);
-				gifDiv.append(p);
-				gifDiv.append(animalImage);
-				$gifsArea.prepend(gifDiv);
+				$("#gifs-appear-here").prepend(
+					`<div class="col-md-4">
+						<div class="card mb-4 gif-card">
+							<div class="card-image-wrap">
+								<img class="card-img-top" data-altImage="${results[i].images.fixed_width.url}" src="${results[i].images.fixed_width_still.url}" alt="${results[i].title}">
+							</div>
+							<div class="card-body">
+								
+								<p class="card-text">Title: ${results[i].title}</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<a role="button" class="btn btn-sm btn-outline-secondary" href="${results[i].images.fixed_width.url}">View</a>
+										<button type="button" class="btn btn-sm btn-outline-secondary" data-gifLink="${results[i].images.fixed_width.url}" data-toggle="tooltip" data-placement="right" title="Copy Link">
+											<i class="fas fa-link fa-spin"></i>
+										</button>
+									</div>
+									<small class="text-muted">Gif Rating: ${results[i].rating}</small>
+                </div>
+							</div>
+						</div>
+					</div>`
+				);
+				$('[data-toggle="tooltip"]').tooltip();
 			}
 		});
 	});
 
+	//Switch still and animated
+	$("#gifs-appear-here").on("click", ".gif-card img", function () {
+		var $thisGif = $(this);
+		imgAlt = $thisGif.attr("data-altImage");
+		imgSrc = $thisGif.attr("src");
+		$thisGif.attr("src", imgAlt).attr("data-altImage", imgSrc);
+		$thisGif.parent().toggleClass("play");
+	});
+
+	//Copy Gif link to clipboard
+	$("#gifs-appear-here").on("click", "[data-gifLink]", function (event) {
+		event.preventDefault(event);
+		var $thisLink = $(this);
+		var dummyContent = $thisLink.attr("data-gifLink");
+		console.log(dummyContent);
+		var dummy = $('<input>').val(dummyContent).appendTo('body').select().addClass("hidden");
+		document.execCommand('copy');
+
+		$(this).tooltip('hide')
+		.attr('data-original-title', "Link Copied!")
+		.tooltip('show');
+
+	});
 
 
-
-
-
-
-
-});//end doc ready
+}); //end doc ready

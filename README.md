@@ -22,6 +22,10 @@ File Structure
 Workflow
 -----------
 
-- run `gulp`
+- run `gulp` during development
 - make changes in `app` changes will be reflected in your default browser automatically. (edit only scss files for styles)
 - When ready to push, stop the gulp watch possess and run `gulp build`. This will optimize the site and build the dist directory. Production will read from the dist directory. 
+
+
+
+
