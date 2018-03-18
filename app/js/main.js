@@ -1,5 +1,3 @@
-// https://developers.giphy.com/explorer/
-
 $(document).ready(function () {
 
 	var buttons = ["Frodo Baggins", "Samwise Gamgee", "Gimli", "Aragorn", "Legolas", "Gandalf", "Boromir", "Eye of Mordor", "Sauron", "Gimli's Axe", "Rosie Cotton", "Elrond", "Peregrin Took", "Mariadoc Brandybuck", "Tom Bombadil", "Radagast", "Fangorn", "Treebeard", "Gollum"];

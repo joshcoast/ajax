@@ -1,141 +1,102 @@
-/* -- Notes from css-tricks https://css-tricks.com/gulp-for-beginners/ --*/
-
-// Our Requirements
-//var postcss = require('gulp-postcss');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var browserSync = require('browser-sync').create();
+var browserSync = require('browser-sync');
 var useref = require('gulp-useref');
 var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 var cssnano = require('gulp-cssnano');
-var del = require('del');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
+var del = require('del');
 var runSequence = require('run-sequence');
 
-// The postCss array or required plugins https://www.smashingmagazine.com/2015/12/introduction-to-postcss/
-
-
-
-/* -- Development Tasks --*/
-
-/* -- Browser Sync task 
-	We need to create a browserSync task to enable Gulp to spin up a server using Browser Sync. Since we're running a server, we need to let Browser Sync know where the root of the server should be. In our case, it's the `app` folder:
--- */
-gulp.task('browserSync', function () {
-	browserSync.init({
-		server: {
-			baseDir: 'app'
-		},
-	})
+// Basic Gulp task syntax
+gulp.task('hello', function() {
+  console.log('Hello Zell!');
 })
 
-// Compiles scss to css task
-gulp.task('sass', function () {
-	return gulp.src('app/scss/styles.scss')
-		.pipe(sass()) // Converts Sass to CSS with gulp-sass
-		.pipe(gulp.dest('app/css'))
-		.pipe(browserSync.reload({
-			stream: true
-		}))
+// Development Tasks 
+// -----------------
+
+// Start browserSync server
+gulp.task('browserSync', function() {
+  browserSync({
+    server: {
+      baseDir: 'app'
+    }
+  })
+})
+
+gulp.task('sass', function() {
+  return gulp.src('app/scss/**/*.scss') // Gets all files ending with .scss in app/scss and children dirs
+    .pipe(sass().on('error', sass.logError)) // Passes it through a gulp-sass, log errors to console
+    .pipe(gulp.dest('app/css')) // Outputs it in the css folder
+    .pipe(browserSync.reload({ // Reloading with Browser Sync
+      stream: true
+    }));
+})
+
+// Watchers
+gulp.task('watch', function() {
+  gulp.watch('app/scss/**/*.scss', ['sass']);
+  gulp.watch('app/*.html', browserSync.reload);
+  gulp.watch('app/js/**/*.js', browserSync.reload);
+})
+
+// Optimization Tasks 
+// ------------------
+
+// Optimizing CSS and JavaScript 
+gulp.task('useref', function() {
+
+  return gulp.src('app/*.html')
+    .pipe(useref())
+    //.pipe(gulpIf('*.js', uglify()) -- removed because of es6
+    .pipe(gulpIf('*.css', cssnano()))
+    .pipe(gulp.dest('docs'));
 });
 
-/* -- Production Website Tasks --*/
-
-// Builds docs directory task
-gulp.task('useref', function () {
-	return gulp.src('app/*.html') // useref is a plugin that concatenates js files.
-		.pipe(useref())
-		.pipe(gulp.dest('docs'))
-		// Minifies only if it's a JavaScript file
-		.pipe(gulpIf('*.js', uglify()))
-		// place new file in the docs directory
-		.pipe(gulp.dest('docs'))
+// Optimizing Images 
+gulp.task('images', function() {
+  return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
+    // Caching images that ran through imagemin
+    .pipe(cache(imagemin({
+      interlaced: true,
+    })))
+    .pipe(gulp.dest('docs/images'))
 });
 
-// postCSS grabs dev css and runs production ready plugins to the css (like autoprefixer)
+// Copying fonts 
+gulp.task('fonts', function() {
+  return gulp.src('app/fonts/**/*')
+    .pipe(gulp.dest('docs/fonts'))
+})
 
-gulp.task('styles', function () {
-	var postcss = require('gulp-postcss');
-	var focus = require('postcss-focus');
+// Cleaning 
+gulp.task('clean', function() {
+  return del.sync('docs').then(function(cb) {
+    return cache.clearAll(cb);
+  });
+})
 
-	return gulp.src('app/css/styles.css')
-		.pipe(postcss([
-			focus,
-			require('autoprefixer'),
-		]))
-		.pipe(gulp.dest('docs/css/'));
+gulp.task('clean:docs', function() {
+  return del.sync(['docs/**/*', '!docs/images', '!docs/images/**/*']);
 });
 
-// Optimizing Images task
-gulp.task('images', function () {
-	return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
-		.pipe(imagemin({
-			// Setting interlaced to true
-			interlaced: true
-		}))
-		.pipe(gulp.dest('docs/images'))
-});
+// Build Sequences
+// ---------------
 
-// Caches Images task
-gulp.task('images', function () {
-	return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
-		// Caching images that ran through imagemin
-		.pipe(cache(imagemin({
-			interlaced: true
-		})))
-		.pipe(gulp.dest('docs/images'))
-});
-
-// Clear Image Cache 
-gulp.task('cache:clear', function (callback) {
-	return cache.clearAll(callback)
+gulp.task('default', function(callback) {
+  runSequence(['sass', 'browserSync'], 'watch',
+    callback
+  )
 })
 
-// Moves our fonts to the docs directory (no optimization needed)
-gulp.task('fonts', function () {
-	return gulp.src('app/fonts/**/*')
-		.pipe(gulp.dest('docs/fonts'))
-})
-
-// Cleans docs directory task
-gulp.task('clean:docs', function () {
-	return del.sync('docs');
-})
-
-/*-- run-sequence (to run production tasks in a particular order)
-example:
-gulp.task('task-name', function(callback) {
-  runSequence('task-one', ['tasks','two','run','in','parallel'], 'task-three', callback);
-});
-Note: the tasks in the array run simultaneously
---*/
-gulp.task('build', function (callback) {
-	runSequence('clean:docs', ['sass', 'useref', 'images', 'fonts'], 'styles',
-		callback
-	)
-})
-
-//Watch tasks
-
-/* -- 
-example:
-gulp.task('watch', ['array', 'of', 'tasks', 'to', 'complete','before', 'watch'], function (){
-   ...
-})
---*/
-
-gulp.task('watch', ['browserSync', 'sass'], function () {
-	gulp.watch('app/scss/**/*.scss', ['sass']);
-	// Reloads the browser whenever HTML or JS files change
-	gulp.watch('app/*.html', browserSync.reload);
-	gulp.watch('app/js/**/*.js', browserSync.reload);
-})
-
-// "default"  runs sass task then browserSync task and then the watch task when you run `gulp` all by itself. 
-gulp.task('default', function (callback) {
-	runSequence(['sass', 'browserSync', 'watch'],
-		callback
-	)
+gulp.task('build', function(callback) {
+  runSequence(
+    'clean:docs',
+    'sass',
+    ['useref', 'images', 'fonts'],
+    callback
+  )
 })
